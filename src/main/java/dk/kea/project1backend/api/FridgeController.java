@@ -1,5 +1,6 @@
 package dk.kea.project1backend.api;
 
+import dk.kea.project1backend.entity.Fridge;
 import dk.kea.project1backend.service.FridgeService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class FridgeController {
     this.fridgeService = fridgeService;
   }
 
-  @PostMapping
-  void addIngredient(){ }
+//  @PostMapping
+//  void addIngredient(){ fridgeService.addIngredient(); }
 
 }

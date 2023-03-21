@@ -27,5 +27,4 @@ public class Fridge {
     private List<Ingredient> ingredients = new ArrayList<>();
 
 
-
 }
