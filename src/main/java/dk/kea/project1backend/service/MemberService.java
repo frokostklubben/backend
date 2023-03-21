@@ -24,7 +24,7 @@ public class MemberService {
   //User with roles repo
   public List<MemberResponse> getMembers() {
     List<Member> members = memberRepository.findAll();
-    return members.stream().map(member -> new MemberResponse(member)).toList();
+    return members.stream().map(MemberResponse::new).toList();
   }
 
 
