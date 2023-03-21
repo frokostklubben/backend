@@ -21,10 +21,16 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  //@PreAuthorize("hasAuthority('USER')")
   @GetMapping
   List<MemberResponse> getMembers(){
     return memberService.getMembers();
+  }
+
+
+
+  @GetMapping("/{username}")
+  MemberResponse getMemberByUsername(@PathVariable String username){
+    return memberService.getMemberByUsername(username);
   }
 
   @DeleteMapping( "/{username}")
