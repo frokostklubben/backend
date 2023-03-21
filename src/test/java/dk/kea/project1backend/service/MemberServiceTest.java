@@ -13,11 +13,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 @DataJpaTest
 class MemberServiceTest {
 
   @Autowired
   public MemberRepository memberRepository;
+
+  MemberService memberService;
   private MemberService memberService;
 
   boolean dataIsReady = false;
@@ -43,6 +49,7 @@ class MemberServiceTest {
   }
 
   @Test
+
   void getMembers() {
     List<MemberResponse> members = memberService.getMembers();
     assertEquals(2,members.size());
@@ -66,6 +73,5 @@ class MemberServiceTest {
     memberService.deleteMemberByUsername("skiordie");
     assertEquals(1, memberRepository.findAll().size());
   }
-
 
 }
