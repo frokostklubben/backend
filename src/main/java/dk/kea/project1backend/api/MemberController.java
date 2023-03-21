@@ -2,10 +2,7 @@ package dk.kea.project1backend.api;
 
 import dk.kea.project1backend.dto.MemberResponse;
 import dk.kea.project1backend.service.MemberService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,9 @@ public class MemberController {
     return memberService.getMembers();
   }
 
+  @DeleteMapping( "/{username}")
+  public void deleteMemberByUsername(@PathVariable String username) {
+    memberService.deleteMemberByUsername(username);
+  }
 
 }
