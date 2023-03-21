@@ -19,7 +19,7 @@ public class Fridge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
 
     // TODO: double check that this is correct.

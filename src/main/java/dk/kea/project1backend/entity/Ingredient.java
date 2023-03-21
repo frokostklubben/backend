@@ -16,7 +16,7 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -24,6 +24,12 @@ public class Ingredient {
     Fridge fridge;
 
     public Ingredient(String name, Fridge fridge) {
+        this.name = name;
+        this.fridge = fridge;
+    }
+
+    public Ingredient(int id, String name, Fridge fridge) {
+        this.id = id;
         this.name = name;
         this.fridge = fridge;
     }

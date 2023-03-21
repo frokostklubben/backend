@@ -1,6 +1,7 @@
 package dk.kea.project1backend.dto;
 
 
+import dk.kea.project1backend.entity.Ingredient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class FridgeRequest {
 
-  private int id;
-  private List<String> ingredientNames;
+  private Integer id;
+
+  private List<IngredientRequest> ingredients;
 
 }

@@ -1,11 +1,10 @@
 package dk.kea.project1backend.api;
 
+import dk.kea.project1backend.dto.FridgeRequest;
+import dk.kea.project1backend.dto.FridgeResponse;
 import dk.kea.project1backend.entity.Fridge;
 import dk.kea.project1backend.service.FridgeService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("api/fridge")
 @RestController
@@ -18,7 +17,19 @@ public class FridgeController {
     this.fridgeService = fridgeService;
   }
 
-//  @PostMapping
-//  void addIngredient(){ fridgeService.addIngredient(); }
+  @GetMapping("/{id}")
+  FridgeResponse readFridge(@PathVariable int id){
+    return fridgeService.readFridge(id);
+  }
+
+  @PostMapping()
+  FridgeResponse createFridge(@RequestBody FridgeRequest fridgeRequest){
+    return fridgeService.createFridge(fridgeRequest);
+  }
+
+  @PutMapping("/{id}")
+  FridgeResponse updateFridge(@RequestBody FridgeRequest fridgeRequest, @PathVariable int id){
+    return fridgeService.updateFridge(fridgeRequest, id);
+  }
 
 }
