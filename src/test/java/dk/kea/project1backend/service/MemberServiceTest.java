@@ -23,7 +23,6 @@ class MemberServiceTest {
   @Autowired
   public MemberRepository memberRepository;
 
-  MemberService memberService;
   private MemberService memberService;
 
   boolean dataIsReady = false;
@@ -48,8 +47,8 @@ class MemberServiceTest {
     assertEquals("user1@mail.dk", memberResponse.getEmail());
   }
 
-  @Test
 
+  @Test
   void getMembers() {
     List<MemberResponse> members = memberService.getMembers();
     assertEquals(2,members.size());

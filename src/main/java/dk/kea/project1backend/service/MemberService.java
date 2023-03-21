@@ -35,7 +35,7 @@ public class MemberService {
 
 
 
-  }
+
 
 
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username){

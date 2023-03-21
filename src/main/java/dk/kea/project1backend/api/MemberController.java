@@ -30,6 +30,8 @@ public class MemberController {
   @DeleteMapping( "/{username}")
   public void deleteMemberByUsername(@PathVariable String username) {
     memberService.deleteMemberByUsername(username);
+  }
+
   //No roles needed to add a member
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   MemberResponse addMember(@RequestBody MemberRequest body){
