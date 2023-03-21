@@ -1,11 +1,10 @@
 package dk.kea.project1backend.api;
 
+import dk.kea.project1backend.dto.MemberRequest;
 import dk.kea.project1backend.dto.MemberResponse;
 import dk.kea.project1backend.service.MemberService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,10 +19,16 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  //@PreAuthorize("hasAuthority('ADMIN')")
+  //@PreAuthorize("hasAuthority('USER')")
   @GetMapping
   List<MemberResponse> getMembers(){
     return memberService.getMembers();
+  }
+
+  //No roles needed to add a member
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  MemberResponse addMember(@RequestBody MemberRequest body){
+    return memberService.addMember(body);
   }
 
 
