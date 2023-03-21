@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -18,6 +21,7 @@ class MemberServiceTest {
   public MemberRepository memberRepository;
 
   MemberService memberService;
+  private MemberService memberService;
 
   boolean dataIsReady = false;
 
@@ -41,4 +45,19 @@ class MemberServiceTest {
     assertEquals("user1@mail.dk", memberResponse.getEmail());
   }
 
+  void getMembers() {
+    List<MemberResponse> members = memberService.getMembers();
+    assertEquals(2,members.size());
+  }
+
+  @Test
+  void editMember(){
+    if (memberRepository.existsById("skiordie")){
+      Member member = memberRepository.findById("skiordie").get();
+      MemberRequest request = new MemberRequest(member);
+      request.setFirstName("Marcus");
+      memberService.editMember(request,"skiordie");
+      assertEquals("Marcus", request.getFirstName());
+    }
+  }
 }
