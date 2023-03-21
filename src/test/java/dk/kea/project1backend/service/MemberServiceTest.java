@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -45,6 +48,8 @@ class MemberServiceTest {
     assertEquals("user1@mail.dk", memberResponse.getEmail());
   }
 
+  @Test
+
   void getMembers() {
     List<MemberResponse> members = memberService.getMembers();
     assertEquals(2,members.size());
@@ -60,4 +65,13 @@ class MemberServiceTest {
       assertEquals("Marcus", request.getFirstName());
     }
   }
+
+
+  @Test
+  void deleteMemberByUsername() {
+    // Det burde være 2 members i repo på forhånd fra setup
+    memberService.deleteMemberByUsername("skiordie");
+    assertEquals(1, memberRepository.findAll().size());
+  }
+
 }
