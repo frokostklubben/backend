@@ -6,6 +6,7 @@ import dk.kea.project1backend.service.MemberService;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +28,13 @@ public class MemberController {
   }
 
 
-
+  @PreAuthorize("hasAuthority('USER')")
   @GetMapping("/{username}")
   MemberResponse getMemberByUsername(@PathVariable String username){
     return memberService.getMemberByUsername(username);
   }
 
+  @PreAuthorize("hasAuthority('USER')")
   @DeleteMapping( "/{username}")
   public void deleteMemberByUsername(@PathVariable String username) {
     memberService.deleteMemberByUsername(username);
@@ -45,6 +47,7 @@ public class MemberController {
   }
 
   // Eventually we will change it to use the currently logged-in user
+  @PreAuthorize("hasAuthority('USER')")
   @PutMapping("/{username}")
   public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
     return memberService.editMember(body, username);
