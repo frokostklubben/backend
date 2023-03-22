@@ -11,6 +11,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -36,6 +40,15 @@ class MemberServiceTest {
   }
 
   @Test
+  void addMember() {
+    Member member = new Member("username1", "test12", "user1@mail.dk", "Tommy");
+    MemberRequest memberRequest = new MemberRequest(member);
+    MemberResponse memberResponse = memberService.addMember(memberRequest);
+    assertEquals("user1@mail.dk", memberResponse.getEmail());
+  }
+
+
+  @Test
   void getMembers() {
     List<MemberResponse> members = memberService.getMembers();
     assertEquals(2,members.size());
@@ -51,4 +64,13 @@ class MemberServiceTest {
       assertEquals("Marcus", request.getFirstName());
     }
   }
+
+
+  @Test
+  void deleteMemberByUsername() {
+    // Det burde være 2 members i repo på forhånd fra setup
+    memberService.deleteMemberByUsername("skiordie");
+    assertEquals(1, memberRepository.findAll().size());
+  }
+
 }
