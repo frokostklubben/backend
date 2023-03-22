@@ -80,6 +80,7 @@ public class SecurityConfig {
     http.authorizeHttpRequests((authorize) -> authorize
             //Obviously we need to be able to login without being logged in :-)
             .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
 
             //Required in order to use the h2-console
             .requestMatchers("/h2*/**").permitAll()
@@ -90,13 +91,13 @@ public class SecurityConfig {
             //necessary to allow for "nice" JSON Errors
             .requestMatchers("/error").permitAll()
 
-            .requestMatchers("/", "/**").permitAll());
+            //.requestMatchers("/", "/**").permitAll());
 
             //.requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll());
 
            // Demonstrates another way to add roles to an endpoint
            // .requestMatchers(HttpMethod.GET, "/api/demo/admin").hasAuthority("ADMIN")
-    //.anyRequest().authenticated());
+    .anyRequest().authenticated());
 
     return http.build();
   }

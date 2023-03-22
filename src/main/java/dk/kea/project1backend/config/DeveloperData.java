@@ -5,29 +5,60 @@ import dk.kea.project1backend.entity.Ingredient;
 import dk.kea.project1backend.entity.Member;
 import dk.kea.project1backend.repository.FridgeRepository;
 import dk.kea.project1backend.repository.MemberRepository;
+import dk.kea.security.entity.Role;
+import dk.kea.security.entity.UserWithRoles;
+import dk.kea.security.repository.UserWithRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Configuration
-public class DeveloperData implements ApplicationRunner {
+//@Configuration
+@Component
+//public class DeveloperData implements ApplicationRunner {
+public class DeveloperData implements CommandLineRunner {
 
-  @Autowired
   FridgeRepository fridgeRepository;
 
-  @Autowired
   MemberRepository memberRepository;
 
-  public DeveloperData(MemberRepository memberRepository) {
+  @Autowired
+  UserWithRolesRepository userWithRolesRepository;
+
+  public DeveloperData(FridgeRepository fridgeRepository, MemberRepository memberRepository) {
+    this.fridgeRepository = fridgeRepository;
     this.memberRepository = memberRepository;
   }
 
-  @Override
-  public void run(ApplicationArguments args) throws Exception {
-    makeTestData();
+  final String passwordUsedByAll = "test12";
+
+  private void setupUserWithRoleUsers() {
+
+    System.out.println("******************************************************************************");
+    System.out.println("******* NEVER  COMMIT/PUSH CODE WITH DEFAULT CREDENTIALS FOR REAL ************");
+    System.out.println("******* REMOVE THIS BEFORE DEPLOYMENT, AND SETUP DEFAULT USERS DIRECTLY  *****");
+    System.out.println("**** ** ON YOUR REMOTE DATABASE                 ******************************");
+    System.out.println("******************************************************************************");
+    UserWithRoles user1 = new UserWithRoles("user1", passwordUsedByAll, "user1@a.dk");
+    UserWithRoles user2 = new UserWithRoles("user2", passwordUsedByAll, "user2@a.dk");
+    UserWithRoles user3 = new UserWithRoles("user3", passwordUsedByAll, "user3@a.dk");
+    UserWithRoles user4 = new UserWithRoles("user4", passwordUsedByAll, "user4@a.dk");
+    user1.addRole(Role.USER);
+    user1.addRole(Role.ADMIN);
+    user2.addRole(Role.USER);
+    user3.addRole(Role.ADMIN);
+    //No Role assigned to user4
+    userWithRolesRepository.save(user1);
+    userWithRolesRepository.save(user2);
+    userWithRolesRepository.save(user3);
+    userWithRolesRepository.save(user4);
+  }
+
+  private void makeFridgeTestData() {
 
     Fridge f1 = new Fridge();
     ArrayList<Ingredient> ingredients1 = new ArrayList<>();
@@ -64,11 +95,20 @@ public class DeveloperData implements ApplicationRunner {
 
   }
 
-  private void makeTestData() {
-    Member member1 = memberRepository.save(new Member("user1", "user1@user.dk", "test12", "Marcus"));
-    Member member2 = memberRepository.save(new Member("user2", "user2@user.dk", "test12", "Tommy"));
+  private void makeMemberTestData() {
+    Member member1 = new Member("user1", "user1@user.dk", "test12", "Marcus");
+    Member member2 = new Member("user2", "user2@user.dk", "test12", "Tommy");
 
-    //member1.addRole(Role.USER)
-    //member2.addRole(Role.USER)
+    member1.addRole(Role.USER);
+    member2.addRole(Role.USER);
+
+    memberRepository.save(member1);
+    memberRepository.save(member2);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    //setupUserWithRoleUsers();
+    makeMemberTestData();
   }
 }
