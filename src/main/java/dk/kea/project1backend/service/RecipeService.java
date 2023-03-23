@@ -2,34 +2,47 @@ package dk.kea.project1backend.service;
 
 import com.sun.tools.javac.Main;
 import dk.kea.project1backend.dto.RecipeAPIResponse;
+import dk.kea.project1backend.entity.Fridge;
+import dk.kea.project1backend.repository.FridgeRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class RecipeService {
 
+  FridgeRepository fridgeRepository;
 
-  public void findRecipe () {
+  public RecipeService(FridgeRepository fridgeRepository) {
+    this.fridgeRepository = fridgeRepository;
+  }
+
+  public RecipeAPIResponse findRecipe (Integer id) {
 
     RestTemplate restTemplate = new RestTemplate();
 
     //find køleskob ud fra id
+    Fridge fridge = fridgeRepository.findById(id).orElseThrow(() ->
+        new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fridge with this ID does not exist"));
 
     //hent madvarer ud af køleskabet
+    String ingredients = fridge.getIngredients().stream().map(ingredient -> ingredient.getName()+",").collect(Collectors.joining());
+
 
     String API_KEY = "0d02a9201e6c4121a93d3f4f1b53b0ed";
-    String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey="+ API_KEY + "&ingredients=apples&number=1&ignorePantry=true&ranking=1";
+    String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey="+ API_KEY + "&ingredients="+ ingredients +"&number=1&ignorePantry=true&ranking=1";
 
 
-    RecipeAPIResponse response = restTemplate.getForObject(url, RecipeAPIResponse.class);
-//    System.out.println(response.toString());
-//    MovieDTO response = restTemplate.getForObject(url, MovieDTO.class);
+    List<RecipeAPIResponse> responses = Arrays.asList(restTemplate.getForObject(url, RecipeAPIResponse[].class));
 
+
+    return responses.get(0);
   }
 
-
-  public static void main(String[] args) {
-    RecipeService recipeService = new RecipeService();
-    recipeService.findRecipe();
-  }
 }
