@@ -2,6 +2,7 @@ package dk.kea.project1backend.service;
 
 import com.sun.tools.javac.Main;
 import dk.kea.project1backend.dto.RecipeAPIResponse;
+import dk.kea.project1backend.dto.RecipeResponse;
 import dk.kea.project1backend.entity.Fridge;
 import dk.kea.project1backend.repository.FridgeRepository;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class RecipeService {
     this.fridgeRepository = fridgeRepository;
   }
 
-  public RecipeAPIResponse findRecipe (Integer id) {
+  public RecipeResponse findRecipe (Integer id) {
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -41,8 +42,8 @@ public class RecipeService {
 
     List<RecipeAPIResponse> responses = Arrays.asList(restTemplate.getForObject(url, RecipeAPIResponse[].class));
 
-
-    return responses.get(0);
+    RecipeResponse recipeResponse = new RecipeResponse(responses.get(0));
+    return recipeResponse;
   }
 
 }

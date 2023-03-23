@@ -43,9 +43,11 @@ public class RecipeAPIResponse {
 
   }
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
-
 class MissedIngredient {
 
   @JsonProperty("id")
@@ -73,9 +75,11 @@ class MissedIngredient {
 
 }
 
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
 class UsedIngredient {
 
   @JsonProperty("id")
