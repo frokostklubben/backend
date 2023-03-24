@@ -4,7 +4,6 @@ import dk.kea.project1backend.dto.MemberRequest;
 import dk.kea.project1backend.dto.MemberResponse;
 import dk.kea.project1backend.service.MemberService;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,22 +23,17 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  @GetMapping
-  List<MemberResponse> getMembers(){
-    return memberService.getMembers();
-  }
-
 
   @PreAuthorize("hasAuthority('USER')")
-  @GetMapping("/{username}")
-  MemberResponse getMemberByUsername(@PathVariable String username){
-    return memberService.getMemberByUsername(username);
+  @GetMapping()
+  MemberResponse getMemberInfo(Principal p){
+    return memberService.getMemberInfo(p.getName());
   }
 
   @PreAuthorize("hasAuthority('USER')")
-  @DeleteMapping( "/{username}")
-  public void deleteMemberByUsername(@PathVariable String username) {
-    memberService.deleteMemberByUsername(username);
+  @DeleteMapping( )
+  public void deleteMemberByUsername(Principal p) {
+    memberService.deleteMemberByUsername(p.getName());
   }
 
   //No roles needed to add a member
@@ -49,19 +43,11 @@ public class MemberController {
   }
 
   // Eventually we will change it to use the currently logged-in user
-  @PreAuthorize("hasAuthority('USER')") //TODO: Kan denne annotering udelades? Det virker uden
+  @PreAuthorize("hasAuthority('USER')")
   @PutMapping()
   public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, Principal p){
     return memberService.editMember(body, p.getName());
   }
-
-/*  @GetMapping("/user-fromtoken")
-  public ResponseEntity<InfoResponse> getUserInfo(Principal p) {
-    String info = "Current user is "+p.getName();
-    return new ResponseEntity<InfoResponse>(new InfoResponse(info), HttpStatus.OK);
-  }
- */
-
 
 
 }

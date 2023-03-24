@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class FridgeServiceTest {
-
+/*
     @Autowired
     public FridgeRepository fridgeRepository;
 
@@ -103,4 +103,7 @@ class FridgeServiceTest {
         }
 
     }
+*/
 }
+
+

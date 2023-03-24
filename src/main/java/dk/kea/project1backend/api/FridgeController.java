@@ -7,6 +7,8 @@ import dk.kea.project1backend.service.FridgeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RequestMapping("api/fridge")
 @RestController
 @CrossOrigin
@@ -20,20 +22,20 @@ public class FridgeController {
 
   @PreAuthorize("hasAuthority('USER')")
   @GetMapping("/{id}")
-  FridgeResponse readFridge(@PathVariable int id){
-    return fridgeService.readFridge(id);
+  FridgeResponse readFridge(@PathVariable int id, Principal p){
+    return fridgeService.readFridge(id, p.getName());
   }
 
   @PreAuthorize("hasAuthority('USER')")
   @PostMapping()
-  FridgeResponse createFridge(@RequestBody FridgeRequest fridgeRequest){
-    return fridgeService.createFridge(fridgeRequest);
+  FridgeResponse createFridge(@RequestBody FridgeRequest fridgeRequest, Principal p){
+    return fridgeService.createFridge(fridgeRequest, p.getName());
   }
 
   @PreAuthorize("hasAuthority('USER')")
   @PutMapping("/{id}")
-  FridgeResponse updateFridge(@RequestBody FridgeRequest fridgeRequest, @PathVariable int id){
-    return fridgeService.updateFridge(fridgeRequest, id);
+  FridgeResponse updateFridge(@RequestBody FridgeRequest fridgeRequest, @PathVariable int id, Principal p){
+    return fridgeService.updateFridge(fridgeRequest, id, p.getName());
   }
 
 }
