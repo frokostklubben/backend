@@ -4,11 +4,13 @@ import dk.kea.project1backend.dto.MemberRequest;
 import dk.kea.project1backend.dto.MemberResponse;
 import dk.kea.project1backend.service.MemberService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -47,10 +49,19 @@ public class MemberController {
   }
 
   // Eventually we will change it to use the currently logged-in user
-  @PreAuthorize("hasAuthority('USER')")
-  @PutMapping("/{username}")
-  public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
-    return memberService.editMember(body, username);
+  @PreAuthorize("hasAuthority('USER')") //TODO: Kan denne annotering udelades? Det virker uden
+  @PutMapping()
+  public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, Principal p){
+    return memberService.editMember(body, p.getName());
   }
+
+/*  @GetMapping("/user-fromtoken")
+  public ResponseEntity<InfoResponse> getUserInfo(Principal p) {
+    String info = "Current user is "+p.getName();
+    return new ResponseEntity<InfoResponse>(new InfoResponse(info), HttpStatus.OK);
+  }
+ */
+
+
 
 }
