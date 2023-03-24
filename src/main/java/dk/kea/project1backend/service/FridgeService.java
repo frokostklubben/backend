@@ -34,6 +34,7 @@ public class FridgeService {
     fridgeToEdit.setIngredients(ingredients);
 
     Fridge saved = fridgeRepository.save(fridgeToEdit);
+
     return new FridgeResponse(saved);
   }
 

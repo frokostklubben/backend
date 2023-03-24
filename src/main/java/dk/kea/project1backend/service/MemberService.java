@@ -29,18 +29,16 @@ public class MemberService {
 
 
   public void deleteMemberByUsername(String username) {
+    // check token if it is the user logged in
     memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
     memberRepository.deleteById(username);
   }
 
 
-
-
-
-
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username){
     Member memberToEdit = memberRepository.findById(username).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist"));
+    // check token if it is the user logged in
     memberToEdit.setPassword(body.getPassword());
     memberToEdit.setEmail(body.getEmail());
     memberToEdit.setFirstName(body.getFirstName());
