@@ -24,6 +24,7 @@ public class FridgeController {
   @GetMapping()
   FridgeResponse readFridge(Principal p){
     return fridgeService.readFridge(p.getName());
+
   }
 
   @PreAuthorize("hasAuthority('USER')")
