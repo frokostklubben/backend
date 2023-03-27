@@ -15,8 +15,8 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "USER_TYPE")
 public class Member extends UserWithRoles {
   String firstName;
-
-  //One-to-one fridge
+  @OneToOne
+  Fridge fridge;
 
   public Member(String username, String email, String password, String firstName) {
     super(username, password, email);

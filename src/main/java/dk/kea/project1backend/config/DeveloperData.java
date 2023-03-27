@@ -5,6 +5,7 @@ import dk.kea.project1backend.entity.Ingredient;
 import dk.kea.project1backend.entity.Member;
 import dk.kea.project1backend.repository.FridgeRepository;
 import dk.kea.project1backend.repository.MemberRepository;
+import dk.kea.project1backend.service.RecipeService;
 import dk.kea.security.entity.Role;
 import dk.kea.security.entity.UserWithRoles;
 import dk.kea.security.repository.UserWithRolesRepository;
@@ -26,12 +27,16 @@ public class DeveloperData implements CommandLineRunner {
 
   MemberRepository memberRepository;
 
+  //temp
+  RecipeService recipeService;
+
   @Autowired
   UserWithRolesRepository userWithRolesRepository;
 
-  public DeveloperData(FridgeRepository fridgeRepository, MemberRepository memberRepository) {
+  public DeveloperData(FridgeRepository fridgeRepository, MemberRepository memberRepository,RecipeService recipeService) {
     this.fridgeRepository = fridgeRepository;
     this.memberRepository = memberRepository;
+    this.recipeService = recipeService;
   }
 
   final String passwordUsedByAll = "test12";
@@ -62,9 +67,9 @@ public class DeveloperData implements CommandLineRunner {
 
     Fridge f1 = new Fridge();
     ArrayList<Ingredient> ingredients1 = new ArrayList<>();
-    Ingredient f1_i1 = new Ingredient("f1name1",f1);
-    Ingredient f1_i2 = new Ingredient("f1name2",f1);
-    Ingredient f1_i3 = new Ingredient("f1name3",f1);
+    Ingredient f1_i1 = new Ingredient("apple",f1);
+    Ingredient f1_i2 = new Ingredient("chicken",f1);
+    Ingredient f1_i3 = new Ingredient("curry",f1);
     ingredients1.add(f1_i1);
     ingredients1.add(f1_i2);
     ingredients1.add(f1_i3);
@@ -110,5 +115,7 @@ public class DeveloperData implements CommandLineRunner {
   public void run(String... args) throws Exception {
     //setupUserWithRoleUsers();
     makeMemberTestData();
+    makeFridgeTestData();
+//    recipeService.findRecipe();
   }
 }

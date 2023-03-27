@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -22,22 +23,17 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  @GetMapping
-  List<MemberResponse> getMembers(){
-    return memberService.getMembers();
-  }
-
 
   @PreAuthorize("hasAuthority('USER')")
-  @GetMapping("/{username}")
-  MemberResponse getMemberByUsername(@PathVariable String username){
-    return memberService.getMemberByUsername(username);
+  @GetMapping()
+  MemberResponse getMemberInfo(Principal p){
+    return memberService.getMemberInfo(p.getName());
   }
 
   @PreAuthorize("hasAuthority('USER')")
-  @DeleteMapping( "/{username}")
-  public void deleteMemberByUsername(@PathVariable String username) {
-    memberService.deleteMemberByUsername(username);
+  @DeleteMapping( )
+  public void deleteMemberByUsername(Principal p) {
+    memberService.deleteMemberByUsername(p.getName());
   }
 
   //No roles needed to add a member
@@ -48,9 +44,10 @@ public class MemberController {
 
   // Eventually we will change it to use the currently logged-in user
   @PreAuthorize("hasAuthority('USER')")
-  @PutMapping("/{username}")
-  public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
-    return memberService.editMember(body, username);
+  @PutMapping()
+  public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, Principal p){
+    return memberService.editMember(body, p.getName());
   }
+
 
 }
