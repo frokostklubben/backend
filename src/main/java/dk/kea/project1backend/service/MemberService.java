@@ -3,6 +3,7 @@ import dk.kea.project1backend.dto.MemberRequest;
 import dk.kea.project1backend.dto.MemberResponse;
 import dk.kea.project1backend.entity.Member;
 import dk.kea.project1backend.repository.MemberRepository;
+import dk.kea.security.entity.Role;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -55,8 +56,8 @@ public class MemberService {
     }
 
     Member newMember = MemberRequest.getMemberEntity(body);
-    //Tilføj rolle til newMember!
     newMember = memberRepository.save(newMember);
+    newMember.addRole(Role.USER);
     return new MemberResponse(newMember);
   }
 
