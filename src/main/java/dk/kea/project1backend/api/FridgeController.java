@@ -21,9 +21,10 @@ public class FridgeController {
   }
 
   @PreAuthorize("hasAuthority('USER')")
-  @GetMapping("/{id}")
-  FridgeResponse readFridge(@PathVariable int id, Principal p){
-    return fridgeService.readFridge(id, p.getName());
+  @GetMapping()
+  FridgeResponse readFridge(Principal p){
+    return fridgeService.readFridge(p.getName());
+
   }
 
   @PreAuthorize("hasAuthority('USER')")
@@ -37,5 +38,12 @@ public class FridgeController {
   FridgeResponse updateFridge(@RequestBody FridgeRequest fridgeRequest, @PathVariable int id, Principal p){
     return fridgeService.updateFridge(fridgeRequest, id, p.getName());
   }
+
+  @PreAuthorize("hasAuthority('USER')")
+  @DeleteMapping("/ingredient/{id}")
+  void deleteFridgeItem(@PathVariable int id, Principal p){
+    fridgeService.removeIngredient(id,p.getName());
+  }
+
 
 }
