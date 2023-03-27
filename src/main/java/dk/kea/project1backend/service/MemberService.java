@@ -61,7 +61,7 @@ public class MemberService {
   }
 
 
-  public MemberResponse getMemberByUsername(String username) {
+  public MemberResponse getMemberInfo(String username) {
     Member found = memberRepository.findById(username).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     return new MemberResponse(found);

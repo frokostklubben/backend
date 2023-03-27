@@ -24,22 +24,22 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  @GetMapping
-  List<MemberResponse> getMembers(){
-    return memberService.getMembers();
-  }
+//  @GetMapping
+//  List<MemberResponse> getMembers(){
+//    return memberService.getMembers();
+//  }
 
 
   @PreAuthorize("hasAuthority('USER')")
-  @GetMapping("/{username}")
-  MemberResponse getMemberByUsername(@PathVariable String username){
-    return memberService.getMemberByUsername(username);
+  @GetMapping()
+  MemberResponse getMemberInfo(Principal p){
+    return memberService.getMemberInfo(p.getName());
   }
 
   @PreAuthorize("hasAuthority('USER')")
-  @DeleteMapping( "/{username}")
-  public void deleteMemberByUsername(@PathVariable String username) {
-    memberService.deleteMemberByUsername(username);
+  @DeleteMapping( )
+  public void deleteMemberByUsername(Principal p) {
+    memberService.deleteMemberByUsername(p.getName());
   }
 
   //No roles needed to add a member
@@ -49,7 +49,7 @@ public class MemberController {
   }
 
   // Eventually we will change it to use the currently logged-in user
-  @PreAuthorize("hasAuthority('USER')") //TODO: Kan denne annotering udelades? Det virker uden
+  @PreAuthorize("hasAuthority('USER')")
   @PutMapping()
   public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, Principal p){
     return memberService.editMember(body, p.getName());
