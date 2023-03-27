@@ -39,7 +39,7 @@ public class MemberService {
     Member memberToEdit = memberRepository.findById(username).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist"));
     // check token if it is the user logged in
-    memberToEdit.setPassword(body.getPassword());
+    //memberToEdit.setPassword(body.getPassword());
     memberToEdit.setEmail(body.getEmail());
     memberToEdit.setFirstName(body.getFirstName());
     memberRepository.save(memberToEdit);
