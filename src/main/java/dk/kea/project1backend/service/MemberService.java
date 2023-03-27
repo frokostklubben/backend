@@ -56,8 +56,8 @@ public class MemberService {
     }
 
     Member newMember = MemberRequest.getMemberEntity(body);
-    newMember = memberRepository.save(newMember);
     newMember.addRole(Role.USER);
+    newMember = memberRepository.save(newMember);
     return new MemberResponse(newMember);
   }
 
