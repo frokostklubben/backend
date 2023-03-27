@@ -16,7 +16,7 @@ import lombok.Setter;
 
 
     public static Member getMemberEntity(MemberRequest m){
-      return new Member(m.getUsername(),m.getPassword(),m.getEmail(), m.getFirstName());
+      return new Member(m.getUsername(),m.getEmail(),m.getPassword(), m.getFirstName());
     }
 
     // Member to MemberRequest conversion
