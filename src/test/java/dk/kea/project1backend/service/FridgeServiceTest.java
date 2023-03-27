@@ -6,7 +6,10 @@ import dk.kea.project1backend.dto.IngredientRequest;
 import dk.kea.project1backend.dto.IngredientResponse;
 import dk.kea.project1backend.entity.Fridge;
 import dk.kea.project1backend.entity.Ingredient;
+import dk.kea.project1backend.entity.Member;
 import dk.kea.project1backend.repository.FridgeRepository;
+import dk.kea.project1backend.repository.MemberRepository;
+import dk.kea.security.entity.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +25,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class FridgeServiceTest {
-/*
+
     @Autowired
     public FridgeRepository fridgeRepository;
+
+    @Autowired
+    public MemberRepository memberRepository;
 
     public FridgeService fridgeService;
 
     @BeforeEach
     void setUp() {
-        this.fridgeService = new FridgeService(fridgeRepository);
+        this.fridgeService = new FridgeService(fridgeRepository, memberRepository);
     }
 
     @Test
@@ -45,7 +51,10 @@ class FridgeServiceTest {
 
         FridgeRequest fridgeRequest1 = new FridgeRequest(null, ingredients1);
 
-        FridgeResponse fridgeResponse2 = fridgeService.createFridge(fridgeRequest1);
+        Member member1 = new Member("user1", "user1@user.dk", "test12", "Marcus");
+        memberRepository.save(member1);
+
+        FridgeResponse fridgeResponse2 = fridgeService.createFridge(fridgeRequest1, member1.getUsername());
 
         assertEquals(1, fridgeRepository.findAll().size());
     }
@@ -71,7 +80,11 @@ class FridgeServiceTest {
 
         FridgeRequest fridgeRequest1 = new FridgeRequest(f1saved.getId(), ingredients2);
 
-        FridgeResponse fridgeResponse = fridgeService.updateFridge(fridgeRequest1, f1saved.getId());
+        Member member1 = new Member("user1", "user1@user.dk", "test12", "Marcus");
+        member1.setFridge(f1saved);
+        memberRepository.save(member1);
+
+        FridgeResponse fridgeResponse = fridgeService.updateFridge(fridgeRequest1, f1saved.getId(), member1.getUsername());
 
         assertEquals(3, fridgeRepository.findById(f1saved.getId()).get().getIngredients().size());
     }
@@ -91,7 +104,11 @@ class FridgeServiceTest {
 
         FridgeResponse fridgeResponse1 = new FridgeResponse(f1saved);
 
-        FridgeResponse fridgeResponse2 = fridgeService.readFridge(f1saved.getId());
+        Member member1 = new Member("user1", "user1@user.dk", "test12", "Marcus");
+        member1.setFridge(f1saved);
+        memberRepository.save(member1);
+
+        FridgeResponse fridgeResponse2 = fridgeService.readFridge(f1saved.getId(), member1.getUsername());
 
         for (IngredientResponse ingredientResponse1 : fridgeResponse1.getIngredients()) {
             for (IngredientResponse ingredientResponse2 : fridgeResponse2.getIngredients()) {
@@ -103,7 +120,5 @@ class FridgeServiceTest {
         }
 
     }
-*/
+
 }
-
-
