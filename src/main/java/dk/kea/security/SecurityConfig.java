@@ -79,7 +79,7 @@ public class SecurityConfig {
 
     http.authorizeHttpRequests((authorize) -> authorize
             //Obviously we need to be able to login without being logged in :-)
-            .requestMatchers(HttpMethod.POST, "/api/au  th/login").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/members").permitAll()
 
             //Required in order to use the h2-console
