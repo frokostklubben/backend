@@ -8,6 +8,7 @@ import dk.kea.project1backend.entity.Fridge;
 import dk.kea.project1backend.entity.Ingredient;
 import dk.kea.project1backend.entity.Member;
 import dk.kea.project1backend.repository.FridgeRepository;
+import dk.kea.project1backend.repository.IngredientRepository;
 import dk.kea.project1backend.repository.MemberRepository;
 import dk.kea.security.entity.Role;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +35,12 @@ class FridgeServiceTest {
 
     public FridgeService fridgeService;
 
+    @Autowired
+    private IngredientRepository ingredientRepository;
+
     @BeforeEach
     void setUp() {
-        this.fridgeService = new FridgeService(fridgeRepository, memberRepository);
+        this.fridgeService = new FridgeService(fridgeRepository, memberRepository, ingredientRepository);
     }
 
     @Test
@@ -108,7 +112,7 @@ class FridgeServiceTest {
         member1.setFridge(f1saved);
         memberRepository.save(member1);
 
-        FridgeResponse fridgeResponse2 = fridgeService.readFridge(f1saved.getId(), member1.getUsername());
+        FridgeResponse fridgeResponse2 = fridgeService.readFridge(member1.getUsername());
 
         for (IngredientResponse ingredientResponse1 : fridgeResponse1.getIngredients()) {
             for (IngredientResponse ingredientResponse2 : fridgeResponse2.getIngredients()) {

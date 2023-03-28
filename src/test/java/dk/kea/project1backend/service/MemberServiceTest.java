@@ -41,7 +41,7 @@ class MemberServiceTest {
 
   @Test
   void addMember() {
-    Member member = new Member("username1", "test12", "user1@mail.dk", "Tommy");
+    Member member = new Member("username1", "user1@mail.dk", "test12", "Tommy");
     MemberRequest memberRequest = new MemberRequest(member);
     MemberResponse memberResponse = memberService.addMember(memberRequest);
     assertEquals("user1@mail.dk", memberResponse.getEmail());
