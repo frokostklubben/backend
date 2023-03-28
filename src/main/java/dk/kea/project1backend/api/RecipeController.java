@@ -7,6 +7,8 @@ import dk.kea.project1backend.service.RecipeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/recipe")
 @CrossOrigin
@@ -20,9 +22,9 @@ RecipeService recipeService;
 
   //bruger et køleskabs id
   @PreAuthorize("hasAuthority('USER')")
-  @GetMapping("/{id}")
-  public RecipeResponse getRecipe(@PathVariable Integer id){
-    return recipeService.findRecipe(id);
+  @GetMapping()
+  public RecipeResponse getRecipe(Principal p){
+    return recipeService.findRecipe(p.getName());
   }
 
 }
