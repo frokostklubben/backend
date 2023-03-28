@@ -16,7 +16,8 @@ public class RecipeResponse {
 
     public String title;
     public String image;
-    public List<String> ingredientNames = new ArrayList<>();
+    public List<String> usedIngredientNames = new ArrayList<>();
+    public List<String> missedIngredientNames = new ArrayList<>();
     public List<String> steps = new ArrayList<>();
 
     public RecipeResponse(RecipeAPIResponse recipeAPIResponse, RecipeStepsAPIResponse recipeStepsAPIResponse) {
@@ -24,9 +25,13 @@ public class RecipeResponse {
         this.image = recipeAPIResponse.getImage();
 
         for (UsedIngredient usedIngredient : recipeAPIResponse.getUsedIngredients()) {
-            ingredientNames.add(usedIngredient.getOriginalName());
+            usedIngredientNames.add(usedIngredient.getOriginalName());
         }
-// Can adde step nr when it works
+
+        for (MissedIngredient missedIngredient : recipeAPIResponse.getMissedIngredients()) {
+            missedIngredientNames.add(missedIngredient.getOriginalName());
+        }
+        
         this.steps = recipeStepsAPIResponse.getSteps().stream().map(step -> step.getStep()).toList();
 
     }

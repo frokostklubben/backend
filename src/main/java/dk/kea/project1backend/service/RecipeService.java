@@ -5,7 +5,9 @@ import dk.kea.project1backend.dto.RecipeAPIResponse;
 import dk.kea.project1backend.dto.RecipeResponse;
 import dk.kea.project1backend.dto.RecipeStepsAPIResponse;
 import dk.kea.project1backend.entity.Fridge;
+import dk.kea.project1backend.entity.Member;
 import dk.kea.project1backend.repository.FridgeRepository;
+import dk.kea.project1backend.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,26 @@ public class RecipeService {
 
   FridgeRepository fridgeRepository;
 
+  MemberRepository memberRepository;
+
   @Value("${app.api-key}")
   private String API_KEY;
 
-  public RecipeService(FridgeRepository fridgeRepository) {
+  public RecipeService(FridgeRepository fridgeRepository, MemberRepository memberRepository) {
     this.fridgeRepository = fridgeRepository;
+    this.memberRepository = memberRepository;
   }
 
-  public RecipeResponse findRecipe (Integer id) {
+  public RecipeResponse findRecipe (String username) {
+
+    Member member = memberRepository.findById(username).orElseThrow(() ->
+            new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+    if (member.getFridge() == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not have a fridge");
+    }
+
+    Integer id = member.getFridge().getId();
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -39,8 +53,6 @@ public class RecipeService {
 
     //hent madvarer ud af køleskabet
     String ingredients = fridge.getIngredients().stream().map(ingredient -> ingredient.getName()+",").collect(Collectors.joining());
-
-
 
     String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey="+ this.API_KEY + "&ingredients="+ ingredients +"&number=1&ignorePantry=true&ranking=1";
 
