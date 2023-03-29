@@ -125,7 +125,6 @@ public class SecurityConfig {
 
   @Bean
   public JwtEncoder jwtEncoder() throws JOSEException {
-    System.out.println("1) ---> "+tokenSecret);
     SecretKey key = new SecretKeySpec(tokenSecret.getBytes(), "HmacSHA256");
     JWKSource<SecurityContext> immutableSecret = new ImmutableSecret<SecurityContext>(key);
     return new NimbusJwtEncoder(immutableSecret);
@@ -133,7 +132,6 @@ public class SecurityConfig {
 
   @Bean
   public JwtDecoder jwtDecoder() {
-    System.out.println("2) ---> "+tokenSecret);
     SecretKey originalKey = new SecretKeySpec(tokenSecret.getBytes(), "HmacSHA256");
     NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(originalKey).build();
     return jwtDecoder;
