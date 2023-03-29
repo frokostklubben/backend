@@ -1,6 +1,5 @@
 package dk.kea.project1backend.service;
 
-import com.sun.tools.javac.Main;
 import dk.kea.project1backend.dto.RecipeAPIResponse;
 import dk.kea.project1backend.dto.RecipeResponse;
 import dk.kea.project1backend.dto.RecipeStepsAPIResponse;
@@ -26,8 +25,12 @@ public class RecipeService {
 
   MemberRepository memberRepository;
 
-  @Value("${app.api-key}")
-  private String API_KEY;
+  @Value("${app.api-key1}")
+  private String API_KEY1;
+
+  @Value("${app.api-key2}")
+  private String API_KEY2;
+
 
   public RecipeService(FridgeRepository fridgeRepository, MemberRepository memberRepository) {
     this.fridgeRepository = fridgeRepository;
@@ -54,7 +57,7 @@ public class RecipeService {
     //hent madvarer ud af køleskabet
     String ingredients = fridge.getIngredients().stream().map(ingredient -> ingredient.getName()+",").collect(Collectors.joining());
 
-    String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey="+ this.API_KEY + "&ingredients="+ ingredients +"&number=1&ignorePantry=true&ranking=1";
+    String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey="+ this.API_KEY1 + "&ingredients="+ ingredients +"&number=1&ignorePantry=true&ranking=1";
 
     List<RecipeAPIResponse> responses = Arrays.asList(restTemplate.getForObject(url, RecipeAPIResponse[].class));
 
@@ -62,7 +65,7 @@ public class RecipeService {
     // Get steps to the recipe
     int recipeId = responses.get(0).getId();
 
-    String urlSteps = "https://api.spoonacular.com/recipes/" + recipeId + "/analyzedInstructions?stepBreakdown=true&apiKey=" + this.API_KEY;
+    String urlSteps = "https://api.spoonacular.com/recipes/" + recipeId + "/analyzedInstructions?stepBreakdown=true&apiKey=" + this.API_KEY2;
 
     List<RecipeStepsAPIResponse> responsesSteps = Arrays.asList(restTemplate.getForObject(urlSteps, RecipeStepsAPIResponse[].class));
 
